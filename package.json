@@ -4,11 +4,11 @@
   "description": "Chrome extension to make webpages more readable for people with dyslexia",
   "scripts": {
     "build": "tsc && npm run copy-assets",
-    "copy-assets": "npm run copy-manifest && npm run copy-html && npm run copy-css && npm run copy-fonts",
+    "copy-assets": "npm run copy-manifest && npm run copy-html && npm run copy-css && npm run copy-content",
     "copy-manifest": "copy manifest.json dist\\",
     "copy-html": "copy popup.html dist\\ && copy options.html dist\\",
-    "copy-css": "copy popup.css dist\\ && copy options.css dist\\ && xcopy src\\content\\styles dist\\content\\styles /E /I",
-    "copy-fonts": "mkdir dist\\content\\fonts && xcopy src\\content\\fonts dist\\content\\fonts /E /I",
+    "copy-css": "copy popup.css dist\\ && copy options.css dist\\",
+    "copy-content": "xcopy src\\content\\ dist\\content\\ /E /I /y /s",
     "watch": "tsc --watch",
     "clean": "rmdir /s /q dist",
     "package": "npm run build && cd dist && powershell Compress-Archive -Path * -DestinationPath ..\\cleanread-extension.zip"
