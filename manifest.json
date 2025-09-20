@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "CleanRead",
+  "version": "1.0.0",
+  "description": "Make webpages more readable for people with dyslexia.",
+  "permissions": ["storage", "scripting", "activeTab", "tts"],
+  "host_permissions": ["<all_urls>"],
+  "action": { 
+    "default_popup": "popup.html", 
+    "default_title": "CleanRead" 
+  },
+  "background": { 
+    "service_worker": "background.js", 
+    "type": "module" 
+  },
+  "commands": {
+    "toggle_mode": { 
+      "suggested_key": { "default": "Alt+Shift+D" }, 
+      "description": "Toggle Dyslexia Mode" 
+    },
+    "toggle_focus": { 
+      "suggested_key": { "default": "Alt+Shift+F" }, 
+      "description": "Toggle Line Focus" 
+    },
+    "speak_selection": { 
+      "suggested_key": { "default": "Alt+Shift+S" }, 
+      "description": "Speak Selection" 
+    }
+  },
+  "icons": { 
+    "16": "icons/16.png", 
+    "48": "icons/48.png", 
+    "128": "icons/128.png" 
+  },
+  "web_accessible_resources": [{
+    "resources": ["fonts/*", "content/styles/*.css"],
+    "matches": ["<all_urls>"]
+  }],
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["content.js"],
+    "run_at": "document_end"
+  }]
+}

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CleanRead Settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="options-container">
+    <header class="options-header">
+      <h1>CleanRead Settings</h1>
+      <p class="header-subtitle">Customize your reading experience</p>
+    </header>
+
+    <nav class="options-nav">
+      <button class="nav-button active" data-panel="typography">Typography</button>
+      <button class="nav-button" data-panel="theme">Colors & Contrast</button>
+      <button class="nav-button" data-panel="layout">Layout</button>
+      <button class="nav-button" data-panel="focus">Focus Tools</button>
+      <button class="nav-button" data-panel="tts">Text-to-Speech</button>
+      <button class="nav-button" data-panel="presets">Presets</button>
+      <button class="nav-button" data-panel="profiles">Profiles</button>
+    </nav>
+
+    <main class="options-main">
+      <!-- Typography Panel -->
+      <section class="options-panel active" id="typography-panel">
+        <h2>Typography Settings</h2>
+        
+        <div class="control-group">
+          <label for="fontFamily" class="control-label">Font Family</label>
+          <select id="fontFamily" class="control-select">
+            <option value="default">Default</option>
+            <option value="opendyslexic">OpenDyslexic</option>
+            <option value="lexend">Lexend</option>
+            <option value="sans">Sans-Serif</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="fontSize" class="control-label">Font Size: <span id="fontSizeValue">18</span>px</label>
+          <input type="range" id="fontSize" class="control-range" min="12" max="32" value="18">
+        </div>
+
+        <div class="control-group">
+          <label for="lineHeight" class="control-label">Line Height: <span id="lineHeightValue">1.7</span></label>
+          <input type="range" id="lineHeight" class="control-range" min="1.2" max="2.5" step="0.1" value="1.7">
+        </div>
+
+        <div class="control-group">
+          <label for="letterSpacing" class="control-label">Letter Spacing: <span id="letterSpacingValue">0.02</span>em</label>
+          <input type="range" id="letterSpacing" class="control-range" min="0" max="0.1" step="0.01" value="0.02">
+        </div>
+
+        <div class="control-group">
+          <label for="wordSpacing" class="control-label">Word Spacing: <span id="wordSpacingValue">2</span>px</label>
+          <input type="range" id="wordSpacing" class="control-range" min="0" max="10" value="2">
+        </div>
+
+        <div class="control-group">
+          <label for="paragraphSpacing" class="control-label">Paragraph Spacing: <span id="paragraphSpacingValue">16</span>px</label>
+          <input type="range" id="paragraphSpacing" class="control-range" min="0" max="40" value="16">
+        </div>
+
+        <div class="control-group">
+          <label class="toggle-label">
+            <input type="checkbox" id="leftAlign" class="toggle-input">
+            <span class="toggle-slider"></span>
+            <span class="toggle-text">Left align text</span>
+          </label>
+        </div>
+
+        <div class="control-group">
+          <label class="toggle-label">
+            <input type="checkbox" id="disableJustify" class="toggle-input">
+            <span class="toggle-slider"></span>
+            <span class="toggle-text">Disable text justification</span>
+          </label>
+        </div>
+
+        <div class="control-group">
+          <label for="maxColumnWidth" class="control-label">Max Column Width: <span id="maxColumnWidthValue">780</span>px</label>
+          <input type="range" id="maxColumnWidth" class="control-range" min="400" max="1200" value="780">
+        </div>
+      </section>
+
+      <!-- Theme Panel -->
+      <section class="options-panel" id="theme-panel">
+        <h2>Colors & Contrast</h2>
+        
+        <div class="control-group">
+          <label for="themeSelect" class="control-label">Theme</label>
+          <select id="themeSelect" class="control-select">
+            <option value="cream">Light Cream</option>
+            <option value="dark">Dark</option>
+            <option value="high_contrast">High Contrast</option>
+            <option value="custom">Custom</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="textColor" class="control-label">Text Color</label>
+          <input type="color" id="textColor" class="control-color" value="#1a1a1a">
+        </div>
+
+        <div class="control-group">
+          <label for="backgroundColor" class="control-label">Background Color</label>
+          <input type="color" id="backgroundColor" class="control-color" value="#fff8e6">
+        </div>
+
+        <div class="control-group">
+          <label for="overlayTint" class="control-label">Overlay Tint</label>
+          <input type="color" id="overlayTint" class="control-color" value="#fff0c8">
+        </div>
+
+        <div class="control-group">
+          <label for="contrastBoost" class="control-label">Contrast Boost: <span id="contrastBoostValue">0</span>%</label>
+          <input type="range" id="contrastBoost" class="control-range" min="0" max="100" value="0">
+        </div>
+
+        <div class="control-group">
+          <label class="toggle-label">
+            <input type="checkbox" id="linkEmphasis" class="toggle-input">
+            <span class="toggle-slider"></span>
+            <span class="toggle-text">Emphasize links</span>
+          </label>
+        </div>
+      </section>
+
+      <!-- Layout Panel -->
+      <section class="options-panel" id="layout-panel">
+        <h2>Layout Settings</h2>
+        
+        <div class="control-group">
+          <label for="maxWidth" class="control-label">Maximum Content Width: <span id="maxWidthValue">780</span>px</label>
+          <input type="range" id="maxWidth" class="control-range" min="400" max="1200" value="780">
+        </div>
+
+        <div class="control-group">
+          <label class="toggle-label">
+            <input type="checkbox" id="centerContent" class="toggle-input">
+            <span class="toggle-slider"></span>
+            <span class="toggle-text">Center content</span>
+          </label>
+        </div>
+
+        <div class="control-group">
+          <label for="marginSize" class="control-label">Margin Size: <span id="marginSizeValue">20</span>px</label>
+          <input type="range" id="marginSize" class="control-range" min="0" max="60" value="20">
+        </div>
+      </section>
+
+      <!-- Focus Panel -->
+      <section class="options-panel" id="focus-panel">
+        <h2>Focus Tools</h2>
+        
+        <div class="control-group">
+          <label class="toggle-label">
+            <input type="checkbox" id="focusEnabled" class="toggle-input">
+            <span class="toggle-slider"></span>
+            <span class="toggle-text">Enable line focus</span>
+          </label>
+        </div>
+
+        <div class="control-group">
+          <label for="focusHeight" class="control-label">Focus Height: <span id="focusHeightValue">24</span>px</label>
+          <input type="range" id="focusHeight" class="control-range" min="16" max="48" value="24">
+        </div>
+
+        <div class="control-group">
+          <label for="focusOpacity" class="control-label">Focus Opacity: <span id="focusOpacityValue">30</span>%</label>
+          <input type="range" id="focusOpacity" class="control-range" min="10" max="100" value="30">
+        </div>
+
+        <div class="control-group">
+          <label for="focusColor" class="control-label">Focus Color</label>
+          <input type="color" id="focusColor" class="control-color" value="#007bff">
+        </div>
+
+        <div class="control-group">
+          <label for="focusMode" class="control-label">Follow Mode</label>
+          <select id="focusMode" class="control-select">
+            <option value="cursor">Follow Cursor</option>
+            <option value="keyboard">Keyboard Navigation</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- TTS Panel -->
+      <section class="options-panel" id="tts-panel">
+        <h2>Text-to-Speech</h2>
+        
+        <div class="control-group">
+          <label class="toggle-label">
+            <input type="checkbox" id="ttsEnabled" class="toggle-input">
+            <span class="toggle-slider"></span>
+            <span class="toggle-text">Enable TTS</span>
+          </label>
+        </div>
+
+        <div class="control-group">
+          <label for="ttsVoice" class="control-label">Voice</label>
+          <select id="ttsVoice" class="control-select">
+            <option value="">Default Voice</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="ttsRate" class="control-label">Speech Rate: <span id="ttsRateValue">1.0</span></label>
+          <input type="range" id="ttsRate" class="control-range" min="0.5" max="2.0" step="0.1" value="1.0">
+        </div>
+
+        <div class="control-group">
+          <label for="ttsPitch" class="control-label">Pitch: <span id="ttsPitchValue">1.0</span></label>
+          <input type="range" id="ttsPitch" class="control-range" min="0.5" max="2.0" step="0.1" value="1.0">
+        </div>
+
+        <div class="control-group">
+          <label class="toggle-label">
+            <input type="checkbox" id="ttsHighlight" class="toggle-input">
+            <span class="toggle-slider"></span>
+            <span class="toggle-text">Highlight while speaking</span>
+          </label>
+        </div>
+      </section>
+
+      <!-- Presets Panel -->
+      <section class="options-panel" id="presets-panel">
+        <h2>Presets</h2>
+        
+        <div class="presets-grid">
+          <button class="preset-button" data-preset="high_readability">
+            <h3>High Readability</h3>
+            <p>Larger text, increased spacing</p>
+          </button>
+          
+          <button class="preset-button" data-preset="calm_reading">
+            <h3>Calm Reading</h3>
+            <p>Softer colors, relaxed spacing</p>
+          </button>
+          
+          <button class="preset-button" data-preset="high_contrast">
+            <h3>High Contrast</h3>
+            <p>Maximum contrast for visibility</p>
+          </button>
+          
+          <button class="preset-button" data-preset="minimal">
+            <h3>Minimal</h3>
+            <p>Clean, simple styling</p>
+          </button>
+        </div>
+      </section>
+
+      <!-- Profiles Panel -->
+      <section class="options-panel" id="profiles-panel">
+        <h2>Profiles</h2>
+        
+        <div class="profiles-header">
+          <select id="profileSelect" class="control-select">
+            <option value="default">Default Profile</option>
+          </select>
+          <button id="newProfileBtn" class="btn btn-primary">New Profile</button>
+        </div>
+
+        <div class="profiles-actions">
+          <button id="saveProfileBtn" class="btn btn-secondary">Save Profile</button>
+          <button id="deleteProfileBtn" class="btn btn-danger">Delete Profile</button>
+          <button id="exportProfilesBtn" class="btn btn-secondary">Export</button>
+          <button id="importProfilesBtn" class="btn btn-secondary">Import</button>
+        </div>
+
+        <div class="profile-name-section">
+          <label for="profileName" class="control-label">Profile Name</label>
+          <input type="text" id="profileName" class="control-input" placeholder="Enter profile name">
+        </div>
+      </section>
+    </main>
+
+    <footer class="options-footer">
+      <div class="footer-actions">
+        <button id="resetBtn" class="btn btn-secondary">Reset to Defaults</button>
+        <button id="saveBtn" class="btn btn-primary">Save Settings</button>
+      </div>
+    </footer>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

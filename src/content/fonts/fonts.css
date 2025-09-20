@@ -1,0 +1,105 @@
+/* Font face definitions for CleanRead */
+
+/* OpenDyslexic Font */
+@font-face {
+  font-family: "OpenDyslexic";
+  src: url("chrome-extension://__MSG_@@extension_id__/content/fonts/opendyslexic/OpenDyslexic-Regular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "OpenDyslexic";
+  src: url("chrome-extension://__MSG_@@extension_id__/content/fonts/opendyslexic/OpenDyslexic-Bold.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "OpenDyslexic";
+  src: url("chrome-extension://__MSG_@@extension_id__/content/fonts/opendyslexic/OpenDyslexic-Italic.woff2") format("woff2");
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "OpenDyslexic";
+  src: url("chrome-extension://__MSG_@@extension_id__/content/fonts/opendyslexic/OpenDyslexic-BoldItalic.woff2") format("woff2");
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Lexend Font */
+@font-face {
+  font-family: "Lexend";
+  src: url("chrome-extension://__MSG_@@extension_id__/content/fonts/lexend/Lexend-Regular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Lexend";
+  src: url("chrome-extension://__MSG_@@extension_id__/content/fonts/lexend/Lexend-Bold.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Lexend";
+  src: url("chrome-extension://__MSG_@@extension_id__/content/fonts/lexend/Lexend-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Lexend";
+  src: url("chrome-extension://__MSG_@@extension_id__/content/fonts/lexend/Lexend-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Lexend";
+  src: url("chrome-extension://__MSG_@@extension_id__/content/fonts/lexend/Lexend-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Lexend";
+  src: url("chrome-extension://__MSG_@@extension_id__/content/fonts/lexend/Lexend-ExtraBold.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Font loading optimization */
+.font-loading {
+  font-display: swap;
+}
+
+/* Fallback font stacks */
+.font-opendyslexic {
+  font-family: "OpenDyslexic", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.font-lexend {
+  font-family: "Lexend", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.font-sans {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.font-default {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}

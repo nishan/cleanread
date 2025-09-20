@@ -1,0 +1,221 @@
+/* Base dyslexia-friendly styles */
+:root[data-dyslexia="on"] {
+  /* Font variables */
+  --dr-font: "OpenDyslexic", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --dr-font-size: 18px;
+  --dr-line-height: 1.7;
+  --dr-letter-spacing: 0.02em;
+  --dr-word-spacing: 2px;
+  
+  /* Color variables */
+  --dr-text-color: #1a1a1a;
+  --dr-bg-color: #fff8e6;
+  --dr-overlay: rgba(255, 240, 200, 0.2);
+  
+  /* Layout variables */
+  --dr-max-width: 780px;
+  --dr-paragraph-spacing: 16px;
+  --dr-margin: 20px;
+}
+
+/* Core text normalization */
+:root[data-dyslexia="on"] body,
+:root[data-dyslexia="on"] article,
+:root[data-dyslexia="on"] main,
+:root[data-dyslexia="on"] p,
+:root[data-dyslexia="on"] li,
+:root[data-dyslexia="on"] div:not(.dr-focus):not(.dr-readable):not(.dr-reader-controls) {
+  font-family: var(--dr-font) !important;
+  font-size: var(--dr-font-size) !important;
+  line-height: var(--dr-line-height) !important;
+  letter-spacing: var(--dr-letter-spacing) !important;
+  word-spacing: var(--dr-word-spacing) !important;
+  color: var(--dr-text-color) !important;
+  text-align: left !important;
+}
+
+/* Paragraph spacing */
+:root[data-dyslexia="on"] p {
+  margin-bottom: var(--dr-paragraph-spacing) !important;
+}
+
+/* Column width and centering */
+:root[data-dyslexia="on"] article,
+:root[data-dyslexia="on"] main,
+:root[data-dyslexia="on"] .dr-readable {
+  max-width: var(--dr-max-width) !important;
+  margin-inline: auto !important;
+  padding-inline: var(--dr-margin) !important;
+}
+
+/* Background overlay */
+:root[data-dyslexia="on"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: var(--dr-overlay);
+  z-index: 2147483646;
+}
+
+/* Link emphasis */
+:root[data-dyslexia="on"] a {
+  font-weight: bold !important;
+  text-decoration: underline !important;
+  color: var(--dr-text-color) !important;
+}
+
+/* Headings */
+:root[data-dyslexia="on"] h1,
+:root[data-dyslexia="on"] h2,
+:root[data-dyslexia="on"] h3,
+:root[data-dyslexia="on"] h4,
+:root[data-dyslexia="on"] h5,
+:root[data-dyslexia="on"] h6 {
+  font-family: var(--dr-font) !important;
+  font-weight: bold !important;
+  line-height: 1.3 !important;
+  margin-bottom: 16px !important;
+  color: var(--dr-text-color) !important;
+}
+
+/* Lists */
+:root[data-dyslexia="on"] ul,
+:root[data-dyslexia="on"] ol {
+  margin-bottom: var(--dr-paragraph-spacing) !important;
+  padding-left: 24px !important;
+}
+
+:root[data-dyslexia="on"] li {
+  margin-bottom: 8px !important;
+}
+
+/* Blockquotes */
+:root[data-dyslexia="on"] blockquote {
+  font-family: var(--dr-font) !important;
+  font-style: italic !important;
+  border-left: 4px solid var(--dr-text-color) !important;
+  padding-left: 16px !important;
+  margin: var(--dr-paragraph-spacing) 0 !important;
+  color: var(--dr-text-color) !important;
+}
+
+/* Code blocks - minimal styling to avoid conflicts */
+:root[data-dyslexia="on"] pre,
+:root[data-dyslexia="on"] code {
+  font-family: "Courier New", monospace !important;
+  font-size: calc(var(--dr-font-size) * 0.9) !important;
+  line-height: 1.4 !important;
+}
+
+/* Form elements - minimal styling */
+:root[data-dyslexia="on"] input,
+:root[data-dyslexia="on"] textarea,
+:root[data-dyslexia="on"] select {
+  font-family: var(--dr-font) !important;
+  font-size: var(--dr-font-size) !important;
+}
+
+/* Focus ruler styles */
+.dr-focus {
+  position: fixed;
+  background: rgba(0, 123, 255, 0.3);
+  pointer-events: none;
+  z-index: 2147483647;
+  transition: all 0.1s ease;
+  border-radius: 2px;
+}
+
+/* TTS highlight styles */
+.dr-tts-highlight {
+  background: rgba(255, 255, 0, 0.5) !important;
+  transition: background 0.2s ease;
+  border-radius: 2px;
+  padding: 1px 2px;
+}
+
+/* Reader view styles */
+.dr-readable {
+  background: var(--dr-bg-color) !important;
+  color: var(--dr-text-color) !important;
+  padding: 24px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  margin: 20px auto !important;
+  max-width: var(--dr-max-width) !important;
+  line-height: var(--dr-line-height) !important;
+  font-family: var(--dr-font) !important;
+  font-size: var(--dr-font-size) !important;
+}
+
+.dr-reader-controls {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 2147483648;
+  background: white;
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  gap: 8px;
+}
+
+.dr-reader-controls button {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+  border-radius: 6px;
+  font-family: var(--dr-font);
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.dr-reader-controls button:hover {
+  background: #f0f0f0;
+  border-color: #667eea;
+}
+
+/* Accessibility improvements */
+:root[data-dyslexia="on"] * {
+  /* Improve text rendering */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .dr-focus,
+  .dr-tts-highlight,
+  :root[data-dyslexia="on"] * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root[data-dyslexia="on"] {
+    --dr-text-color: #000000;
+    --dr-bg-color: #ffffff;
+    --dr-overlay: transparent;
+  }
+  
+  :root[data-dyslexia="on"] a {
+    color: #0000ff !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  :root[data-dyslexia="on"] body::before {
+    display: none;
+  }
+  
+  .dr-focus,
+  .dr-reader-controls {
+    display: none !important;
+  }
+}

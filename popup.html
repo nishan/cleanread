@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CleanRead</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <header class="popup-header">
+      <h1>CleanRead</h1>
+      <div class="status-indicator" id="statusIndicator"></div>
+    </header>
+
+    <main class="popup-main">
+      <!-- Master Toggle -->
+      <section class="control-section">
+        <label class="toggle-label">
+          <input type="checkbox" id="masterToggle" class="toggle-input">
+          <span class="toggle-slider"></span>
+          <span class="toggle-text">Dyslexia Mode</span>
+        </label>
+      </section>
+
+      <!-- Quick Controls -->
+      <section class="control-section" id="quickControls">
+        <!-- Font Selector -->
+        <div class="control-group">
+          <label for="fontSelect" class="control-label">Font</label>
+          <select id="fontSelect" class="control-select">
+            <option value="default">Default</option>
+            <option value="opendyslexic">OpenDyslexic</option>
+            <option value="lexend">Lexend</option>
+            <option value="sans">Sans-Serif</option>
+          </select>
+        </div>
+
+        <!-- Theme Selector -->
+        <div class="control-group">
+          <label for="themeSelect" class="control-label">Theme</label>
+          <select id="themeSelect" class="control-select">
+            <option value="cream">Light Cream</option>
+            <option value="dark">Dark</option>
+            <option value="high_contrast">High Contrast</option>
+            <option value="custom">Custom</option>
+          </select>
+        </div>
+
+        <!-- Line Focus Toggle -->
+        <div class="control-group">
+          <label class="toggle-label">
+            <input type="checkbox" id="lineFocusToggle" class="toggle-input">
+            <span class="toggle-slider"></span>
+            <span class="toggle-text">Line Focus</span>
+          </label>
+        </div>
+
+        <!-- Reader View Toggle -->
+        <div class="control-group">
+          <label class="toggle-label">
+            <input type="checkbox" id="readerViewToggle" class="toggle-input">
+            <span class="toggle-slider"></span>
+            <span class="toggle-text">Reader View</span>
+          </label>
+        </div>
+      </section>
+
+      <!-- Action Buttons -->
+      <section class="action-section">
+        <button id="moreSettingsBtn" class="btn btn-secondary">
+          More Settings
+        </button>
+        <button id="speakSelectionBtn" class="btn btn-primary">
+          Speak Selection
+        </button>
+      </section>
+
+      <!-- Current Site Info -->
+      <section class="site-info" id="siteInfo">
+        <div class="site-name" id="siteName">Loading...</div>
+        <div class="site-controls">
+          <label class="toggle-label small">
+            <input type="checkbox" id="perSiteToggle" class="toggle-input">
+            <span class="toggle-slider"></span>
+            <span class="toggle-text">Use different settings on this site</span>
+          </label>
+        </div>
+      </section>
+    </main>
+
+    <footer class="popup-footer">
+      <div class="shortcuts-info">
+        <div class="shortcut">Alt+Shift+D: Toggle Mode</div>
+        <div class="shortcut">Alt+Shift+F: Line Focus</div>
+        <div class="shortcut">Alt+Shift+S: Speak Selection</div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

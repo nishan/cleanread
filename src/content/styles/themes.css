@@ -1,0 +1,197 @@
+/* Theme-specific styles for CleanRead */
+
+/* Light Cream Theme (Default) */
+:root[data-dyslexia="on"][data-theme="cream"] {
+  --dr-text-color: #1a1a1a;
+  --dr-bg-color: #fff8e6;
+  --dr-overlay: rgba(255, 240, 200, 0.2);
+  --dr-link-color: #0066cc;
+  --dr-heading-color: #1a1a1a;
+}
+
+/* Dark Theme */
+:root[data-dyslexia="on"][data-theme="dark"] {
+  --dr-text-color: #ffffff;
+  --dr-bg-color: #1a1a1a;
+  --dr-overlay: rgba(0, 0, 0, 0.3);
+  --dr-link-color: #66b3ff;
+  --dr-heading-color: #ffffff;
+}
+
+:root[data-dyslexia="on"][data-theme="dark"] body {
+  background-color: var(--dr-bg-color) !important;
+}
+
+:root[data-dyslexia="on"][data-theme="dark"] a {
+  color: var(--dr-link-color) !important;
+}
+
+:root[data-dyslexia="on"][data-theme="dark"] h1,
+:root[data-dyslexia="on"][data-theme="dark"] h2,
+:root[data-dyslexia="on"][data-theme="dark"] h3,
+:root[data-dyslexia="on"][data-theme="dark"] h4,
+:root[data-dyslexia="on"][data-theme="dark"] h5,
+:root[data-dyslexia="on"][data-theme="dark"] h6 {
+  color: var(--dr-heading-color) !important;
+}
+
+/* High Contrast Theme */
+:root[data-dyslexia="on"][data-theme="high_contrast"] {
+  --dr-text-color: #000000;
+  --dr-bg-color: #ffffff;
+  --dr-overlay: transparent;
+  --dr-link-color: #0000ff;
+  --dr-heading-color: #000000;
+  --dr-border-color: #000000;
+}
+
+:root[data-dyslexia="on"][data-theme="high_contrast"] body {
+  background-color: var(--dr-bg-color) !important;
+  border: 2px solid var(--dr-border-color) !important;
+}
+
+:root[data-dyslexia="on"][data-theme="high_contrast"] a {
+  color: var(--dr-link-color) !important;
+  font-weight: bold !important;
+  text-decoration: underline !important;
+}
+
+:root[data-dyslexia="on"][data-theme="high_contrast"] h1,
+:root[data-dyslexia="on"][data-theme="high_contrast"] h2,
+:root[data-dyslexia="on"][data-theme="high_contrast"] h3,
+:root[data-dyslexia="on"][data-theme="high_contrast"] h4,
+:root[data-dyslexia="on"][data-theme="high_contrast"] h5,
+:root[data-dyslexia="on"][data-theme="high_contrast"] h6 {
+  color: var(--dr-heading-color) !important;
+  border-bottom: 2px solid var(--dr-border-color) !important;
+  padding-bottom: 4px !important;
+}
+
+:root[data-dyslexia="on"][data-theme="high_contrast"] blockquote {
+  border-left: 6px solid var(--dr-border-color) !important;
+  background: #f0f0f0 !important;
+  padding: 16px !important;
+}
+
+/* Custom Theme - inherits from base but allows overrides */
+:root[data-dyslexia="on"][data-theme="custom"] {
+  /* Custom theme variables will be set dynamically via JavaScript */
+}
+
+/* Font-specific theme adjustments */
+:root[data-dyslexia="on"][data-font="opendyslexic"] {
+  --dr-font: "OpenDyslexic", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+:root[data-dyslexia="on"][data-font="lexend"] {
+  --dr-font: "Lexend", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+:root[data-dyslexia="on"][data-font="sans"] {
+  --dr-font: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+:root[data-dyslexia="on"][data-font="default"] {
+  --dr-font: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* Focus ruler theme adjustments */
+:root[data-dyslexia="on"][data-theme="dark"] .dr-focus {
+  background: rgba(102, 179, 255, 0.4);
+}
+
+:root[data-dyslexia="on"][data-theme="high_contrast"] .dr-focus {
+  background: rgba(0, 0, 255, 0.5);
+  border: 2px solid #000000;
+}
+
+/* TTS highlight theme adjustments */
+:root[data-dyslexia="on"][data-theme="dark"] .dr-tts-highlight {
+  background: rgba(255, 255, 0, 0.7) !important;
+  color: #000000 !important;
+}
+
+:root[data-dyslexia="on"][data-theme="high_contrast"] .dr-tts-highlight {
+  background: rgba(255, 255, 0, 0.8) !important;
+  color: #000000 !important;
+  border: 2px solid #000000 !important;
+}
+
+/* Reader view theme adjustments */
+:root[data-dyslexia="on"][data-theme="dark"] .dr-readable {
+  background: var(--dr-bg-color) !important;
+  color: var(--dr-text-color) !important;
+  border: 1px solid #333333 !important;
+}
+
+:root[data-dyslexia="on"][data-theme="high_contrast"] .dr-readable {
+  background: var(--dr-bg-color) !important;
+  color: var(--dr-text-color) !important;
+  border: 3px solid var(--dr-border-color) !important;
+}
+
+/* Reader controls theme adjustments */
+:root[data-dyslexia="on"][data-theme="dark"] .dr-reader-controls {
+  background: #2d2d2d;
+  color: #ffffff;
+  border: 1px solid #555555;
+}
+
+:root[data-dyslexia="on"][data-theme="dark"] .dr-reader-controls button {
+  background: #2d2d2d;
+  color: #ffffff;
+  border-color: #555555;
+}
+
+:root[data-dyslexia="on"][data-theme="dark"] .dr-reader-controls button:hover {
+  background: #404040;
+  border-color: #66b3ff;
+}
+
+:root[data-dyslexia="on"][data-theme="high_contrast"] .dr-reader-controls {
+  background: #ffffff;
+  color: #000000;
+  border: 2px solid #000000;
+}
+
+:root[data-dyslexia="on"][data-theme="high_contrast"] .dr-reader-controls button {
+  background: #ffffff;
+  color: #000000;
+  border: 2px solid #000000;
+  font-weight: bold;
+}
+
+:root[data-dyslexia="on"][data-theme="high_contrast"] .dr-reader-controls button:hover {
+  background: #000000;
+  color: #ffffff;
+}
+
+/* Accessibility theme enhancements */
+:root[data-dyslexia="on"][data-theme="high_contrast"] * {
+  /* Ensure all text is high contrast */
+  text-shadow: none !important;
+}
+
+/* Reduced motion theme adjustments */
+@media (prefers-reduced-motion: reduce) {
+  :root[data-dyslexia="on"] .dr-focus {
+    transition: none !important;
+  }
+  
+  :root[data-dyslexia="on"] .dr-tts-highlight {
+    transition: none !important;
+  }
+}
+
+/* Print theme adjustments */
+@media print {
+  :root[data-dyslexia="on"][data-theme="dark"] {
+    --dr-text-color: #000000;
+    --dr-bg-color: #ffffff;
+    --dr-overlay: transparent;
+  }
+  
+  :root[data-dyslexia="on"][data-theme="dark"] body {
+    background-color: #ffffff !important;
+  }
+}
