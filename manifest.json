@@ -28,17 +28,24 @@
     }
   },
   "icons": { 
-    "16": "src/icons/icon_16.png", 
-    "48": "src/icons/icon_48.png", 
-    "128": "src/icons/icon_128.png" 
+    "16": "icons/icon_16.png", 
+    "48": "icons/icon_48.png", 
+    "128": "icons/icon_128.png" 
   },
   "web_accessible_resources": [{
-    "resources": ["fonts/*", "content/styles/*.css"],
+    "resources": [
+      "fonts/*", 
+      "content/styles/*.css",
+      "content.js",
+      "content/*.js",
+      "shared/*.js"
+    ],
     "matches": ["<all_urls>"]
   }],
   "content_scripts": [{
+    "type": "module",
     "matches": ["<all_urls>"],
-    "js": ["content.js"],
+    "js": ["content_loader.js"],
     "run_at": "document_end"
   }]
 }

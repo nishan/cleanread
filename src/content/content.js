@@ -1,29 +1,24 @@
 import { StorageManager } from '../shared/storage.js';
-import { MessageHandler, AllMessages } from '../shared/messaging.js';
-import { AppState, Profile } from '../shared/settings.js';
+import { MessageHandler } from '../shared/messaging.js';
 import { DOMUtils } from '../shared/dom.js';
-import { FocusRuler } from './focusRuler.js';
-import { TTSSystem } from './tts.js';
-import { ReadabilityView } from './readability.js';
+import { FocusRuler } from '../content/focusRuler.js';
+import { TTSSystem } from '../content/tts.js';
+import { ReadabilityView } from '../content/readability.js';
 
 class ContentScript {
-  private state: AppState | null = null;
-  private focusRuler: FocusRuler;
-  private ttsSystem: TTSSystem;
-  private readabilityView: ReadabilityView;
-  private styleElement: HTMLStyleElement | null = null;
-  private isInitialized = false;
-
   constructor() {
+    this.state = null;
     this.focusRuler = new FocusRuler();
     this.ttsSystem = new TTSSystem();
     this.readabilityView = new ReadabilityView();
+    this.styleElement = null;
+    this.isInitialized = false;
     
     this.initialize();
     this.setupMessageHandlers();
   }
 
-  private async initialize(): Promise<void> {
+  async initialize() {
     if (this.isInitialized) return;
     
     try {
@@ -40,7 +35,7 @@ class ContentScript {
     }
   }
 
-  private async applyState(state: AppState): Promise<void> {
+  async applyState(state) {
     this.state = state;
     const profile = this.getActiveProfile(state);
     
@@ -64,7 +59,7 @@ class ContentScript {
     }
   }
 
-  private async removeState(): Promise<void> {
+  async removeState() {
     // Remove dyslexia mode
     document.documentElement.removeAttribute('data-dyslexia');
     
@@ -82,16 +77,16 @@ class ContentScript {
     this.state = null;
   }
 
-  private getActiveProfile(state: AppState): Profile {
+  getActiveProfile(state) {
     return state.profiles[state.activeProfileId] || state.profiles.default;
   }
 
-  private async injectStyles(profile: Profile): Promise<void> {
+  async injectStyles(profile) {
     const css = this.generateCSS(profile);
     this.styleElement = DOMUtils.ensureStyleElement('dyslexia-styles', css);
   }
 
-  private generateCSS(profile: Profile): string {
+  generateCSS(profile) {
     const { typography, theme } = profile;
     
     // Font family mapping
@@ -237,14 +232,14 @@ class ContentScript {
     `;
   }
 
-  private setupMessageHandlers(): void {
-    chrome.runtime.onMessage.addListener((message: AllMessages, sender, sendResponse) => {
+  setupMessageHandlers() {
+    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       this.handleMessage(message, sendResponse);
       return true; // Keep message channel open for async response
     });
   }
 
-  private async handleMessage(message: AllMessages, sendResponse: (response?: any) => void): Promise<void> {
+  async handleMessage(message, sendResponse) {
     try {
       switch (message.type) {
         case 'APPLY_STATE':
@@ -320,4 +315,13 @@ class ContentScript {
 }
 
 // Initialize the content script
-new ContentScript();
+export function main() {
+  console.log('Content script initialized');
+  console.log(
+    "Is chrome.runtime available here?",
+    typeof chrome.runtime.sendMessage == "function",
+  );
+  new ContentScript();
+}
+
+

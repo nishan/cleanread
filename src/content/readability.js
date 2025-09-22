@@ -1,36 +1,35 @@
 import { DOMUtils } from '../shared/dom.js';
 
 export class ReadabilityView {
-  private enabled = false;
-  private readerContainer: HTMLElement | null = null;
-  private originalContent: HTMLElement[] = [];
-  private backButton: HTMLElement | null = null;
-
   constructor() {
+    this.enabled = false;
+    this.readerContainer = null;
+    this.originalContent = [];
+    this.backButton = null;
     this.loadReadabilityScript();
   }
 
-  enable(): void {
+  enable() {
     if (this.enabled) return;
     
     this.enabled = true;
     this.createReaderView();
   }
 
-  disable(): void {
+  disable() {
     if (!this.enabled) return;
     
     this.enabled = false;
     this.removeReaderView();
   }
 
-  private async loadReadabilityScript(): Promise<void> {
+  async loadReadabilityScript() {
     // In a real implementation, you would load the bundled Readability.js
     // For now, we'll create a simple text extraction
     return Promise.resolve();
   }
 
-  private createReaderView(): void {
+  createReaderView() {
     if (this.readerContainer) return;
 
     // Store original content
@@ -54,26 +53,26 @@ export class ReadabilityView {
     document.body.appendChild(this.readerContainer);
   }
 
-  private storeOriginalContent(): void {
+  storeOriginalContent() {
     // Store references to main content areas
     const mainSelectors = ['main', 'article', '[role="main"]', '.content', '.post', '.entry'];
     
     mainSelectors.forEach(selector => {
       const elements = document.querySelectorAll(selector);
       elements.forEach(el => {
-        this.originalContent.push(el as HTMLElement);
+        this.originalContent.push(el);
       });
     });
 
     // If no main content found, store body children
     if (this.originalContent.length === 0) {
       Array.from(document.body.children).forEach(child => {
-        this.originalContent.push(child as HTMLElement);
+        this.originalContent.push(child);
       });
     }
   }
 
-  private createReaderControls(): void {
+  createReaderControls() {
     const controls = DOMUtils.createElement('div', {
       class: 'dr-reader-controls'
     });
@@ -99,7 +98,7 @@ export class ReadabilityView {
     document.body.appendChild(controls);
   }
 
-  private extractMainContent(): void {
+  extractMainContent() {
     if (!this.readerContainer) return;
 
     // Try to find the main article content
@@ -107,7 +106,7 @@ export class ReadabilityView {
     
     if (!mainContent) {
       // Fallback: use the entire body
-      mainContent = document.body.cloneNode(true) as HTMLElement;
+      mainContent = document.body.cloneNode(true);
     }
 
     // Clean up the content
@@ -117,7 +116,7 @@ export class ReadabilityView {
     this.readerContainer.appendChild(mainContent);
   }
 
-  private findMainContent(): HTMLElement | null {
+  findMainContent() {
     // Priority order for finding main content
     const selectors = [
       'article',
@@ -134,20 +133,20 @@ export class ReadabilityView {
     for (const selector of selectors) {
       const element = document.querySelector(selector);
       if (element && this.isSubstantialContent(element)) {
-        return element.cloneNode(true) as HTMLElement;
+        return element.cloneNode(true);
       }
     }
 
     return null;
   }
 
-  private isSubstantialContent(element: Element): boolean {
+  isSubstantialContent(element) {
     const text = element.textContent || '';
     const wordCount = text.split(/\s+/).length;
     return wordCount > 50; // At least 50 words
   }
 
-  private cleanContent(element: HTMLElement): void {
+  cleanContent(element) {
     // Remove unwanted elements
     const unwantedSelectors = [
       'script',
@@ -175,7 +174,7 @@ export class ReadabilityView {
     this.cleanAttributes(element);
   }
 
-  private cleanAttributes(element: HTMLElement): void {
+  cleanAttributes(element) {
     // Remove most attributes except essential ones
     const allowedAttributes = ['href', 'src', 'alt', 'title'];
     
@@ -198,19 +197,19 @@ export class ReadabilityView {
     });
   }
 
-  private hideOriginalContent(): void {
+  hideOriginalContent() {
     this.originalContent.forEach(element => {
       element.style.display = 'none';
     });
   }
 
-  private showOriginalContent(): void {
+  showOriginalContent() {
     this.originalContent.forEach(element => {
       element.style.display = '';
     });
   }
 
-  private removeReaderView(): void {
+  removeReaderView() {
     // Show original content
     this.showOriginalContent();
     
@@ -231,11 +230,11 @@ export class ReadabilityView {
   }
 
   // Public methods
-  isEnabled(): boolean {
+  isEnabled() {
     return this.enabled;
   }
 
-  toggle(): void {
+  toggle() {
     if (this.enabled) {
       this.disable();
     } else {

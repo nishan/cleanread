@@ -1,28 +1,26 @@
-import { TTSSettings } from '../shared/settings.js';
 import { DOMUtils } from '../shared/dom.js';
 
 export class TTSSystem {
-  private settings: TTSSettings | null = null;
-  private enabled = false;
-  private isSpeaking = false;
-  private currentUtterance: SpeechSynthesisUtterance | null = null;
-  private highlightElements: HTMLElement[] = [];
-
   constructor() {
+    this.settings = null;
+    this.enabled = false;
+    this.isSpeaking = false;
+    this.currentUtterance = null;
+    this.highlightElements = [];
     this.setupEventListeners();
   }
 
-  enable(settings: TTSSettings): void {
+  enable(settings) {
     this.settings = settings;
     this.enabled = true;
   }
 
-  disable(): void {
+  disable() {
     this.enabled = false;
     this.stop();
   }
 
-  private setupEventListeners(): void {
+  setupEventListeners() {
     // Listen for text selection
     document.addEventListener('mouseup', this.handleTextSelection.bind(this));
     
@@ -30,7 +28,7 @@ export class TTSSystem {
     document.addEventListener('keyup', this.handleTextSelection.bind(this));
   }
 
-  private handleTextSelection(): void {
+  handleTextSelection() {
     if (!this.enabled || !this.settings) return;
     
     const selectedText = DOMUtils.getSelectionText();
@@ -40,7 +38,7 @@ export class TTSSystem {
     }
   }
 
-  async readCurrentSelection(): Promise<void> {
+  async readCurrentSelection() {
     if (!this.enabled || !this.settings) return;
     
     const selectedText = DOMUtils.getSelectionText();
@@ -49,7 +47,7 @@ export class TTSSystem {
     }
   }
 
-  async readText(text: string): Promise<void> {
+  async readText(text) {
     if (!this.enabled || !this.settings || this.isSpeaking) return;
     
     // Limit text length to prevent performance issues
@@ -71,16 +69,16 @@ export class TTSSystem {
     }
   }
 
-  private async speakWithChromeTTS(text: string): Promise<void> {
+  async speakWithChromeTTS(text) {
     return new Promise((resolve, reject) => {
       if (!this.settings) return;
 
       chrome.tts.stop();
       
-      const options: any = {
+      const options = {
         rate: this.settings.rate,
         pitch: this.settings.pitch,
-        onEvent: (event: any) => {
+        onEvent: (event) => {
           if (event.type === 'end' || event.type === 'interrupted') {
             this.isSpeaking = false;
             this.clearHighlights();
@@ -104,7 +102,7 @@ export class TTSSystem {
     });
   }
 
-  private async speakWithWebSpeech(text: string): Promise<void> {
+  async speakWithWebSpeech(text) {
     return new Promise((resolve, reject) => {
       if (!this.settings || !('speechSynthesis' in window)) {
         reject(new Error('Speech synthesis not supported'));
@@ -119,7 +117,7 @@ export class TTSSystem {
       
       if (this.settings.voice) {
         const voices = speechSynthesis.getVoices();
-        const voice = voices.find(v => v.name === this.settings!.voice);
+        const voice = voices.find(v => v.name === this.settings.voice);
         if (voice) {
           utterance.voice = voice;
         }
@@ -149,7 +147,7 @@ export class TTSSystem {
     });
   }
 
-  stop(): void {
+  stop() {
     if (chrome.tts) {
       chrome.tts.stop();
     } else if ('speechSynthesis' in window) {
@@ -160,7 +158,7 @@ export class TTSSystem {
     this.clearHighlights();
   }
 
-  private highlightText(text: string): void {
+  highlightText(text) {
     if (!this.settings?.highlight) return;
     
     this.clearHighlights();
@@ -174,7 +172,7 @@ export class TTSSystem {
     
     let node;
     while (node = walker.nextNode()) {
-      const textNode = node as Text;
+      const textNode = node;
       const nodeText = textNode.textContent || '';
       
       if (nodeText.includes(text)) {
@@ -187,7 +185,7 @@ export class TTSSystem {
     }
   }
 
-  private clearHighlights(): void {
+  clearHighlights() {
     this.highlightElements.forEach(el => {
       el.classList.remove('dr-tts-highlight');
     });
@@ -195,35 +193,35 @@ export class TTSSystem {
   }
 
   // Public methods for external control
-  setVoice(voice: string): void {
+  setVoice(voice) {
     if (this.settings) {
       this.settings.voice = voice;
     }
   }
 
-  setRate(rate: number): void {
+  setRate(rate) {
     if (this.settings) {
       this.settings.rate = rate;
     }
   }
 
-  setPitch(pitch: number): void {
+  setPitch(pitch) {
     if (this.settings) {
       this.settings.pitch = pitch;
     }
   }
 
-  setHighlight(highlight: boolean): void {
+  setHighlight(highlight) {
     if (this.settings) {
       this.settings.highlight = highlight;
     }
   }
 
-  isCurrentlySpeaking(): boolean {
+  isCurrentlySpeaking() {
     return this.isSpeaking;
   }
 
-  getAvailableVoices(): SpeechSynthesisVoice[] {
+  getAvailableVoices() {
     if ('speechSynthesis' in window) {
       return speechSynthesis.getVoices();
     }

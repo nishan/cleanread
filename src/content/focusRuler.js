@@ -1,30 +1,28 @@
-import { FocusSettings } from '../shared/settings.js';
 import { DOMUtils } from '../shared/dom.js';
 
 export class FocusRuler {
-  private ruler: HTMLElement | null = null;
-  private settings: FocusSettings | null = null;
-  private enabled = false;
-  private currentY = 0;
-  private lineHeight = 24;
-
   constructor() {
+    this.ruler = null;
+    this.settings = null;
+    this.enabled = false;
+    this.currentY = 0;
+    this.lineHeight = 24;
     this.setupEventListeners();
   }
 
-  enable(settings: FocusSettings): void {
+  enable(settings) {
     this.settings = settings;
     this.enabled = true;
     this.createRuler();
     this.updateRulerStyle();
   }
 
-  disable(): void {
+  disable() {
     this.enabled = false;
     this.removeRuler();
   }
 
-  private createRuler(): void {
+  createRuler() {
     if (this.ruler) return;
 
     this.ruler = DOMUtils.createElement('div', {
@@ -35,14 +33,14 @@ export class FocusRuler {
     document.body.appendChild(this.ruler);
   }
 
-  private removeRuler(): void {
+  removeRuler() {
     if (this.ruler) {
       this.ruler.remove();
       this.ruler = null;
     }
   }
 
-  private updateRulerStyle(): void {
+  updateRulerStyle() {
     if (!this.ruler || !this.settings) return;
 
     this.ruler.style.height = `${this.settings.lineHeightPx}px`;
@@ -50,7 +48,7 @@ export class FocusRuler {
     this.ruler.style.backgroundColor = this.settings.color;
   }
 
-  private setupEventListeners(): void {
+  setupEventListeners() {
     // Mouse tracking
     document.addEventListener('mousemove', this.handleMouseMove.bind(this));
     
@@ -61,7 +59,7 @@ export class FocusRuler {
     window.addEventListener('scroll', this.handleScroll.bind(this));
   }
 
-  private handleMouseMove(event: MouseEvent): void {
+  handleMouseMove(event) {
     if (!this.enabled || !this.ruler || !this.settings) return;
     
     if (this.settings.followMode === 'cursor') {
@@ -69,7 +67,7 @@ export class FocusRuler {
     }
   }
 
-  private handleKeyDown(event: KeyboardEvent): void {
+  handleKeyDown(event) {
     if (!this.enabled || !this.ruler || !this.settings) return;
     
     if (this.settings.followMode === 'keyboard') {
@@ -86,7 +84,7 @@ export class FocusRuler {
     }
   }
 
-  private handleScroll(): void {
+  handleScroll() {
     if (!this.enabled || !this.ruler) return;
     
     // Adjust ruler position based on scroll
@@ -94,7 +92,7 @@ export class FocusRuler {
     this.ruler.style.top = `${this.currentY + scrollTop}px`;
   }
 
-  private updateRulerPosition(x: number, y: number): void {
+  updateRulerPosition(x, y) {
     if (!this.ruler) return;
 
     const rect = DOMUtils.getLineRectAtPoint(x, y);
@@ -103,7 +101,7 @@ export class FocusRuler {
     }
   }
 
-  private positionRuler(rect: DOMRect): void {
+  positionRuler(rect) {
     if (!this.ruler) return;
 
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -115,18 +113,18 @@ export class FocusRuler {
     this.ruler.style.height = `${rect.height}px`;
   }
 
-  private moveRulerUp(): void {
+  moveRulerUp() {
     this.currentY = Math.max(0, this.currentY - this.lineHeight);
     this.updateRulerFromCurrentY();
   }
 
-  private moveRulerDown(): void {
+  moveRulerDown() {
     const maxY = document.documentElement.scrollHeight - window.innerHeight;
     this.currentY = Math.min(maxY, this.currentY + this.lineHeight);
     this.updateRulerFromCurrentY();
   }
 
-  private updateRulerFromCurrentY(): void {
+  updateRulerFromCurrentY() {
     if (!this.ruler) return;
 
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -137,13 +135,13 @@ export class FocusRuler {
   }
 
   // Public methods for external control
-  setFollowMode(mode: 'cursor' | 'keyboard'): void {
+  setFollowMode(mode) {
     if (this.settings) {
       this.settings.followMode = mode;
     }
   }
 
-  setLineHeight(height: number): void {
+  setLineHeight(height) {
     this.lineHeight = height;
     if (this.settings) {
       this.settings.lineHeightPx = height;
@@ -151,14 +149,14 @@ export class FocusRuler {
     this.updateRulerStyle();
   }
 
-  setOpacity(opacity: number): void {
+  setOpacity(opacity) {
     if (this.settings) {
       this.settings.opacity = opacity;
     }
     this.updateRulerStyle();
   }
 
-  setColor(color: string): void {
+  setColor(color) {
     if (this.settings) {
       this.settings.color = color;
     }
