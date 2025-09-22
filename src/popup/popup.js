@@ -1,18 +1,16 @@
 import { StorageManager } from '../shared/storage.js';
 import { MessageHandler } from '../shared/messaging.js';
-import { AppState, Profile } from '../shared/settings.js';
 
 class PopupController {
-  private currentState: AppState | null = null;
-  private currentDomain: string | null = null;
-  private isPerSiteEnabled = false;
-
   constructor() {
+    this.currentState = null;
+    this.currentDomain = null;
+    this.isPerSiteEnabled = false;
     this.initialize();
     this.setupEventListeners();
   }
 
-  private async initialize(): Promise<void> {
+  async initialize() {
     try {
       // Get current domain
       this.currentDomain = await MessageHandler.getCurrentDomain();
@@ -35,29 +33,29 @@ class PopupController {
     }
   }
 
-  private setupEventListeners(): void {
+  setupEventListeners() {
     // Master toggle
-    const masterToggle = document.getElementById('masterToggle') as HTMLInputElement;
+    const masterToggle = document.getElementById('masterToggle');
     masterToggle?.addEventListener('change', this.handleMasterToggle.bind(this));
 
     // Font selector
-    const fontSelect = document.getElementById('fontSelect') as HTMLSelectElement;
+    const fontSelect = document.getElementById('fontSelect');
     fontSelect?.addEventListener('change', this.handleFontChange.bind(this));
 
     // Theme selector
-    const themeSelect = document.getElementById('themeSelect') as HTMLSelectElement;
+    const themeSelect = document.getElementById('themeSelect');
     themeSelect?.addEventListener('change', this.handleThemeChange.bind(this));
 
     // Line focus toggle
-    const lineFocusToggle = document.getElementById('lineFocusToggle') as HTMLInputElement;
+    const lineFocusToggle = document.getElementById('lineFocusToggle');
     lineFocusToggle?.addEventListener('change', this.handleLineFocusToggle.bind(this));
 
     // Reader view toggle
-    const readerViewToggle = document.getElementById('readerViewToggle') as HTMLInputElement;
+    const readerViewToggle = document.getElementById('readerViewToggle');
     readerViewToggle?.addEventListener('change', this.handleReaderViewToggle.bind(this));
 
     // Per-site toggle
-    const perSiteToggle = document.getElementById('perSiteToggle') as HTMLInputElement;
+    const perSiteToggle = document.getElementById('perSiteToggle');
     perSiteToggle?.addEventListener('change', this.handlePerSiteToggle.bind(this));
 
     // Action buttons
@@ -68,13 +66,13 @@ class PopupController {
     speakSelectionBtn?.addEventListener('click', this.speakSelection.bind(this));
   }
 
-  private async updateUI(): Promise<void> {
+  async updateUI() {
     if (!this.currentState) return;
 
     const profile = this.getActiveProfile();
     
     // Update master toggle
-    const masterToggle = document.getElementById('masterToggle') as HTMLInputElement;
+    const masterToggle = document.getElementById('masterToggle');
     if (masterToggle) {
       masterToggle.checked = this.currentState.enabled;
     }
@@ -95,60 +93,60 @@ class PopupController {
     this.toggleControls(this.currentState.enabled);
   }
 
-  private async updateQuickControls(profile: Profile): Promise<void> {
+  async updateQuickControls(profile) {
     // Font selector
-    const fontSelect = document.getElementById('fontSelect') as HTMLSelectElement;
+    const fontSelect = document.getElementById('fontSelect');
     if (fontSelect) {
       fontSelect.value = profile.typography.font;
     }
 
     // Theme selector
-    const themeSelect = document.getElementById('themeSelect') as HTMLSelectElement;
+    const themeSelect = document.getElementById('themeSelect');
     if (themeSelect) {
       themeSelect.value = profile.theme.theme;
     }
 
     // Line focus toggle
-    const lineFocusToggle = document.getElementById('lineFocusToggle') as HTMLInputElement;
+    const lineFocusToggle = document.getElementById('lineFocusToggle');
     if (lineFocusToggle) {
       lineFocusToggle.checked = profile.focus.enabled;
     }
 
     // Reader view toggle
-    const readerViewToggle = document.getElementById('readerViewToggle') as HTMLInputElement;
+    const readerViewToggle = document.getElementById('readerViewToggle');
     if (readerViewToggle) {
       readerViewToggle.checked = profile.readability.enabled;
     }
   }
 
-  private async updateSiteInfo(): Promise<void> {
+  async updateSiteInfo() {
     const siteName = document.getElementById('siteName');
     if (siteName && this.currentDomain) {
       siteName.textContent = this.currentDomain;
     }
 
-    const perSiteToggle = document.getElementById('perSiteToggle') as HTMLInputElement;
+    const perSiteToggle = document.getElementById('perSiteToggle');
     if (perSiteToggle) {
       perSiteToggle.checked = this.isPerSiteEnabled;
     }
   }
 
-  private toggleControls(enabled: boolean): void {
+  toggleControls(enabled) {
     const quickControls = document.getElementById('quickControls');
     if (quickControls) {
       quickControls.classList.toggle('disabled', !enabled);
     }
   }
 
-  private getActiveProfile(): Profile {
+  getActiveProfile() {
     if (!this.currentState) {
       throw new Error('No current state');
     }
     return this.currentState.profiles[this.currentState.activeProfileId] || this.currentState.profiles.default;
   }
 
-  private async handleMasterToggle(event: Event): Promise<void> {
-    const target = event.target as HTMLInputElement;
+  async handleMasterToggle(event) {
+    const target = event.target;
     const enabled = target.checked;
 
     try {
@@ -181,36 +179,36 @@ class PopupController {
     }
   }
 
-  private async handleFontChange(event: Event): Promise<void> {
-    const target = event.target as HTMLSelectElement;
-    const font = target.value as any;
+  async handleFontChange(event) {
+    const target = event.target;
+    const font = target.value;
 
     await this.updateProfileSetting('typography', { font });
   }
 
-  private async handleThemeChange(event: Event): Promise<void> {
-    const target = event.target as HTMLSelectElement;
-    const theme = target.value as any;
+  async handleThemeChange(event) {
+    const target = event.target;
+    const theme = target.value;
 
     await this.updateProfileSetting('theme', { theme });
   }
 
-  private async handleLineFocusToggle(event: Event): Promise<void> {
-    const target = event.target as HTMLInputElement;
+  async handleLineFocusToggle(event) {
+    const target = event.target;
     const enabled = target.checked;
 
     await this.updateProfileSetting('focus', { enabled });
   }
 
-  private async handleReaderViewToggle(event: Event): Promise<void> {
-    const target = event.target as HTMLInputElement;
+  async handleReaderViewToggle(event) {
+    const target = event.target;
     const enabled = target.checked;
 
     await this.updateProfileSetting('readability', { enabled });
   }
 
-  private async handlePerSiteToggle(event: Event): Promise<void> {
-    const target = event.target as HTMLInputElement;
+  async handlePerSiteToggle(event) {
+    const target = event.target;
     const enabled = target.checked;
 
     if (!this.currentDomain) return;
@@ -237,17 +235,18 @@ class PopupController {
     }
   }
 
-  private async updateProfileSetting(section: keyof Profile, updates: any): Promise<void> {
+  async updateProfileSetting(section, updates) {
     if (!this.currentState) return;
 
     try {
       const profile = this.getActiveProfile();
       const updatedProfile = {
         ...profile,
-        [section]: { ...(profile[section] as any), ...updates }
+        [section]: { ...profile[section], ...updates }
       };
 
       await StorageManager.updateProfile(updatedProfile);
+      this.currentState.profiles[updatedProfile.id] = updatedProfile;
 
       // Apply to current tab
       const tab = await MessageHandler.getActiveTab();
@@ -264,7 +263,7 @@ class PopupController {
     }
   }
 
-  private async openOptionsPage(): Promise<void> {
+  async openOptionsPage() {
     try {
       await chrome.runtime.openOptionsPage();
       window.close();
@@ -274,7 +273,7 @@ class PopupController {
     }
   }
 
-  private async speakSelection(): Promise<void> {
+  async speakSelection() {
     try {
       const tab = await MessageHandler.getActiveTab();
       if (tab?.id) {
@@ -288,7 +287,7 @@ class PopupController {
     }
   }
 
-  private showError(message: string): void {
+  showError(message) {
     // Simple error display - in a real app you might want a more sophisticated notification system
     console.error(message);
     // You could add a toast notification here
