@@ -1,18 +1,16 @@
 import { StorageManager } from '../shared/storage.js';
-import { MessageHandler, AllMessages } from '../shared/messaging.js';
-import { AppState } from '../shared/settings.js';
+import { MessageHandler } from '../shared/messaging.js';
 
 class BackgroundService {
-  private initialized = false;
-
   constructor() {
+    this.initialized = false;
     this.initialize();
     this.setupMessageHandlers();
     this.setupCommandHandlers();
     this.setupTabHandlers();
   }
 
-  private async initialize(): Promise<void> {
+  async initialize() {
     if (this.initialized) return;
     
     try {
@@ -27,18 +25,14 @@ class BackgroundService {
     }
   }
 
-  private setupMessageHandlers(): void {
-    chrome.runtime.onMessage.addListener((message: AllMessages, sender, sendResponse) => {
+  setupMessageHandlers() {
+    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       this.handleMessage(message, sender, sendResponse);
       return true; // Keep message channel open for async response
     });
   }
 
-  private async handleMessage(
-    message: AllMessages, 
-    sender: chrome.runtime.MessageSender, 
-    sendResponse: (response?: any) => void
-  ): Promise<void> {
+  async handleMessage(message, sender, sendResponse) {
     try {
       switch (message.type) {
         case 'GET_CURRENT_STATE':
@@ -77,7 +71,7 @@ class BackgroundService {
     }
   }
 
-  private setupCommandHandlers(): void {
+  setupCommandHandlers() {
     chrome.commands.onCommand.addListener(async (command) => {
       const tab = await MessageHandler.getActiveTab();
       if (!tab?.id) return;
@@ -86,17 +80,11 @@ class BackgroundService {
         case 'toggle_mode':
           await this.toggleDyslexiaMode(tab.id);
           break;
-        case 'toggle_focus':
-          await this.toggleLineFocus(tab.id);
-          break;
-        case 'speak_selection':
-          await this.speakSelection(tab.id);
-          break;
       }
     });
   }
 
-  private setupTabHandlers(): void {
+  setupTabHandlers() {
     chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
       if (changeInfo.status === 'complete' && tab.url) {
         await this.handleTabUpdate(tabId, tab);
@@ -104,16 +92,18 @@ class BackgroundService {
     });
   }
 
-  private async handleTabUpdate(tabId: number, tab: chrome.tabs.Tab): Promise<void> {
+  async handleTabUpdate(tabId, tab) {
     try {
-      const domain = new URL(tab.url!).hostname;
+      const domain = new URL(tab.url).hostname;
       const effectiveState = await StorageManager.getEffectiveState(domain);
       
       // Apply settings to the tab
-      await MessageHandler.sendToContentScript(tabId, {
-        type: 'APPLY_STATE',
-        data: effectiveState
-      });
+      if (effectiveState.enabled) {
+        await MessageHandler.sendToContentScript(tabId, {
+          type: 'APPLY_STATE',
+          data: effectiveState
+        });
+      }
     } catch (error) {
       // Ignore errors for invalid URLs (e.g., chrome://, extension://)
       if (!tab.url?.startsWith('chrome://') && !tab.url?.startsWith('moz-extension://')) {
@@ -122,7 +112,7 @@ class BackgroundService {
     }
   }
 
-  private async toggleDyslexiaMode(tabId: number): Promise<void> {
+  async toggleDyslexiaMode(tabId) {
     const state = await StorageManager.getAppState();
     const newState = { ...state, enabled: !state.enabled };
     await StorageManager.saveAppState(newState);
@@ -133,20 +123,7 @@ class BackgroundService {
     });
   }
 
-  private async toggleLineFocus(tabId: number): Promise<void> {
-    await MessageHandler.sendToContentScript(tabId, {
-      type: 'TOGGLE_FOCUS',
-      data: { enabled: true } // This will toggle in the content script
-    });
-  }
-
-  private async speakSelection(tabId: number): Promise<void> {
-    await MessageHandler.sendToContentScript(tabId, {
-      type: 'READ_SELECTION'
-    });
-  }
-
-  private async notifyAllTabs(message: AllMessages): Promise<void> {
+  async notifyAllTabs(message) {
     try {
       const tabs = await chrome.tabs.query({});
       const promises = tabs.map(tab => 

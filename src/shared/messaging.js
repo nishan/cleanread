@@ -3,6 +3,7 @@ export class MessageHandler {
     try {
       return await chrome.tabs.sendMessage(tabId, message);
     } catch (error) {
+      debugger;
       console.error('Failed to send message to content script:', error);
       return null;
     }

@@ -80,12 +80,6 @@ class BackgroundService {
         case 'toggle_mode':
           await this.toggleDyslexiaMode(tab.id);
           break;
-        case 'toggle_focus':
-          await this.toggleLineFocus(tab.id);
-          break;
-        case 'speak_selection':
-          await this.speakSelection(tab.id);
-          break;
       }
     });
   }
@@ -104,10 +98,12 @@ class BackgroundService {
       const effectiveState = await StorageManager.getEffectiveState(domain);
       
       // Apply settings to the tab
-      await MessageHandler.sendToContentScript(tabId, {
-        type: 'APPLY_STATE',
-        data: effectiveState
-      });
+      if (effectiveState.enabled) {
+        await MessageHandler.sendToContentScript(tabId, {
+          type: 'APPLY_STATE',
+          data: effectiveState
+        });
+      }
     } catch (error) {
       // Ignore errors for invalid URLs (e.g., chrome://, extension://)
       if (!tab.url?.startsWith('chrome://') && !tab.url?.startsWith('moz-extension://')) {
@@ -124,19 +120,6 @@ class BackgroundService {
     await MessageHandler.sendToContentScript(tabId, {
       type: 'TOGGLE_MODE',
       data: { enabled: newState.enabled }
-    });
-  }
-
-  async toggleLineFocus(tabId) {
-    await MessageHandler.sendToContentScript(tabId, {
-      type: 'TOGGLE_FOCUS',
-      data: { enabled: true } // This will toggle in the content script
-    });
-  }
-
-  async speakSelection(tabId) {
-    await MessageHandler.sendToContentScript(tabId, {
-      type: 'READ_SELECTION'
     });
   }
 
