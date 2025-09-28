@@ -15,7 +15,10 @@
   },
   "commands": {
     "toggle_mode": { 
-      "suggested_key": { "default": "Alt+Shift+D" }, 
+      "suggested_key": { 
+        "default": "Alt+Shift+D",
+        "mac": "Command+Shift+D"
+      }, 
       "description": "Toggle Dyslexia Mode" 
     }
   },

@@ -8,25 +8,29 @@ class PopupController {
     this.isPerSiteEnabled = false;
     this.initialize();
     this.setupEventListeners();
+    this.setupMessageListener();
   }
 
   async initialize() {
     try {
       // Get current domain
       this.currentDomain = await MessageHandler.getCurrentDomain();
-      
+
       // Load current state
       this.currentState = await StorageManager.getAppState();
-      
+
       // Check if per-site settings exist
       if (this.currentDomain) {
         const perSiteSettings = await StorageManager.getPerSiteSettings(this.currentDomain);
         this.isPerSiteEnabled = !!perSiteSettings;
       }
-      
+
       // Update UI
       await this.updateUI();
-      
+
+      // Set appropriate shortcut text based on OS
+      this.updateShortcutText();
+
     } catch (error) {
       console.error('Failed to initialize popup:', error);
       this.showError('Failed to load settings');
@@ -47,11 +51,23 @@ class PopupController {
     perSiteToggle?.addEventListener('change', this.handlePerSiteToggle.bind(this));
   }
 
+  setupMessageListener() {
+    // Listen for state changes from background script (e.g., keyboard shortcuts)
+    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+      if (message.type === 'STATE_CHANGED') {
+        console.log('CleanRead Popup: State changed, updating UI');
+        this.handleStateChange(message.data);
+        sendResponse({ success: true });
+      }
+      return true; // Keep message channel open
+    });
+  }
+
   async updateUI() {
     if (!this.currentState) return;
 
     const profile = this.getActiveProfile();
-    
+
     // Update master toggle
     const masterToggle = document.getElementById('masterToggle');
     if (masterToggle) {
@@ -203,6 +219,23 @@ class PopupController {
       console.error('Failed to update profile setting:', error);
       this.showError('Failed to update setting');
     }
+  }
+
+  async handleStateChange(newState) {
+    console.log('CleanRead Popup: Handling state change:', newState);
+    this.currentState = newState;
+    await this.updateUI();
+  }
+
+  updateShortcutText() {
+    const shortcutElement = document.getElementById('shortcutText');
+    if (!shortcutElement) return;
+
+    // Detect operating system
+    const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+    const shortcut = isMac ? 'Command+Shift+D' : 'Alt+Shift+D';
+    
+    shortcutElement.textContent = `${shortcut}: Toggle Mode`;
   }
 
   showError(message) {

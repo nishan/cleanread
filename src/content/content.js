@@ -160,7 +160,6 @@ class ContentScript {
     
     // Font family mapping
     const fontFamilies = {
-      default: 'system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif',
       opendyslexic: '"OpenDyslexic", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif',
       lexend: '"Lexend", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif',
       sans: 'system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif'
@@ -270,13 +269,17 @@ class ContentScript {
           break;
 
         case 'TOGGLE_MODE':
+          console.log('CleanRead Content: TOGGLE_MODE received, enabled:', message.data.enabled);
           if (message.data.enabled) {
             if (!this.state) {
               const domain = window.location.hostname;
+              console.log('CleanRead Content: Loading state for domain:', domain);
               this.state = await StorageManager.getEffectiveState(domain);
             }
+            console.log('CleanRead Content: Applying state...');
             await this.applyState(this.state);
           } else {
+            console.log('CleanRead Content: Removing state...');
             await this.removeState();
           }
           sendResponse({ success: true });

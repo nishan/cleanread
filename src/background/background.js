@@ -73,11 +73,17 @@ class BackgroundService {
 
   setupCommandHandlers() {
     chrome.commands.onCommand.addListener(async (command) => {
+      console.log('CleanRead: Command received:', command);
       const tab = await MessageHandler.getActiveTab();
-      if (!tab?.id) return;
+      console.log('CleanRead: Active tab:', tab);
+      if (!tab?.id) {
+        console.log('CleanRead: No active tab found');
+        return;
+      }
 
       switch (command) {
         case 'toggle_mode':
+          console.log('CleanRead: Toggling dyslexia mode for tab:', tab.id);
           await this.toggleDyslexiaMode(tab.id);
           break;
       }
@@ -113,14 +119,41 @@ class BackgroundService {
   }
 
   async toggleDyslexiaMode(tabId) {
+    console.log('CleanRead: Getting current state...');
     const state = await StorageManager.getAppState();
-    const newState = { ...state, enabled: !state.enabled };
-    await StorageManager.saveAppState(newState);
+    console.log('CleanRead: Current state:', state);
     
+    const newState = { ...state, enabled: !state.enabled };
+    console.log('CleanRead: New state:', newState);
+    
+    await StorageManager.saveAppState(newState);
+    console.log('CleanRead: State saved');
+    
+    console.log('CleanRead: Sending message to content script...');
     await MessageHandler.sendToContentScript(tabId, {
       type: 'TOGGLE_MODE',
       data: { enabled: newState.enabled }
     });
+    console.log('CleanRead: Message sent to content script');
+    
+    // Notify popup if it's open
+    console.log('CleanRead: Notifying popup of state change...');
+    await this.notifyPopup(newState);
+  }
+
+  async notifyPopup(newState) {
+    try {
+      // Send message to popup if it's open
+      chrome.runtime.sendMessage({
+        type: 'STATE_CHANGED',
+        data: newState
+      }).catch(error => {
+        // Popup might not be open, which is fine
+        console.log('CleanRead: Popup not open or error sending message:', error.message);
+      });
+    } catch (error) {
+      console.error('Error notifying popup:', error);
+    }
   }
 
   async notifyAllTabs(message) {
