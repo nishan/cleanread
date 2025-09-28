@@ -6,7 +6,7 @@
 }
 
 body {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-family: "OpenDyslexic", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.4;
   color: #333;
@@ -239,7 +239,7 @@ body {
 .shortcut {
   font-size: 11px;
   color: #666;
-  font-family: 'Courier New', monospace;
+  font-family: "OpenDyslexic", 'Courier New', monospace;
 }
 
 /* Disabled state */
